@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments/header :: header('Random Quote')"></head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<h1>Random Quote</h1>
+
+<main>
+
+    <h2>Quote: <span th:text="${quote.quote}" /></h2>
+    <p>Author: <span th:text="${quote.author}" /></p>
+
+</main>
+</body>
+</html>

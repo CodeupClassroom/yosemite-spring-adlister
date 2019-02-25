@@ -1,0 +1,8 @@
+body {
+    background-color: bisque;
+}
+
+nav>ul>li {
+    list-style-type: none;
+    display: inline;
+}
