@@ -23,7 +23,7 @@ public class QuotesController {
     public String random(Model model){
         Quote quote = QuotesList.random();
         model.addAttribute("quote", quote);
-        return "quotes/show";
+        return "quotes/random";
     }
 
     @GetMapping("/quotes/{id}")
