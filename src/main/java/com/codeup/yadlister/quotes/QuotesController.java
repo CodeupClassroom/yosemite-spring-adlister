@@ -1,4 +1,4 @@
-package com.codeup.yadlister.controllers;
+package com.codeup.yadlister.quotes;
 
 import com.codeup.yadlister.quotes.Quote;
 import com.codeup.yadlister.quotes.QuotesList;
