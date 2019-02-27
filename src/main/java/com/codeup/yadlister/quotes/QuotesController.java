@@ -23,20 +23,24 @@ public class QuotesController {
         // List<Quote> quotes = QuotesList.all();
 
         Iterable<Quote> quotes = quoteDao.findAll();
+
         model.addAttribute("quotes", quotes);
         return "quotes/index";
     }
 
     @GetMapping("/quotes/random")
     public String random(Model model){
-        Quote quote = QuotesList.random();
+        Quote quote = quoteDao.getRandom();
         model.addAttribute("quote", quote);
         return "quotes/random";
     }
 
     @GetMapping("/quotes/{id}")
     public String show(@PathVariable long id, Model model){
-        Quote quote = QuotesList.findOne(id);
+//        Quote quote = QuotesList.findOne(id);
+
+        Quote quote = quoteDao.findOne(id);
+
         model.addAttribute("quote", quote);
         return "quotes/show";
     }

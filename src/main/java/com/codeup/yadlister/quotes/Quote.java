@@ -10,7 +10,7 @@ public class Quote {
     @Column(nullable = false, length = 512)
     private String quote;
 
-    @Column(nullable = false, length = 256)
+    @Column(nullable = false, length = 128)
     private String author;
 
     public Quote(long id, String quote, String author) {
