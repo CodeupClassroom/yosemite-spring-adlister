@@ -1,5 +1,7 @@
 body {
     background-color: bisque;
+    margin: 0 2em;
+    padding: 0 2em;
 }
 
 nav>ul>li {
