@@ -12,9 +12,17 @@ import java.util.List;
 @Controller
 public class QuotesController {
 
+    private final QuoteRepository quoteDao;
+
+    public QuotesController(QuoteRepository quoteDao) {
+        this.quoteDao = quoteDao;
+    }
+
     @GetMapping("/quotes")
     public String getQuotes(Model model) {
-        List<Quote> quotes = QuotesList.all();
+        // List<Quote> quotes = QuotesList.all();
+
+        Iterable<Quote> quotes = quoteDao.findAll();
         model.addAttribute("quotes", quotes);
         return "quotes/index";
     }

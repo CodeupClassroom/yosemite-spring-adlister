@@ -1,14 +1,26 @@
 package com.codeup.yadlister.quotes;
+import javax.persistence.*;
 
+@Entity
+@Table(name="quotes")
 public class Quote {
-    private String quote;
-    private String author;
+    @Id @GeneratedValue
     private long id;
+
+    @Column(nullable = false, length = 512)
+    private String quote;
+
+    @Column(nullable = false, length = 256)
+    private String author;
 
     public Quote(long id, String quote, String author) {
         this.id = id;
         this.quote = quote;
         this.author = author;
+    }
+
+    public Quote() {
+
     }
 
     public String getQuote() {
