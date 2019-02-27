@@ -37,7 +37,6 @@ public class QuotesController {
 
     @GetMapping("/quotes/{id}")
     public String show(@PathVariable long id, Model model){
-//        Quote quote = QuotesList.findOne(id);
 
         Quote quote = quoteDao.findOne(id);
 
