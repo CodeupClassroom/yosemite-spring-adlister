@@ -1,12 +1,30 @@
 package com.codeup.yadlister.models;
 
+import javax.persistence.*;
+
+
+@Entity
+@Table(name="posts")
 public class Post {
+    @Id @GeneratedValue
     private long id;
+
+    @Column(nullable = false, length = 128)
     private String title;
+
+    @Column(nullable = false)
     private String body;
 
     public Post(long id, String title, String body) {
         this.id = id;
+        this.title = title;
+        this.body = body;
+    }
+
+    public Post() {
+    }
+
+    public Post(String title, String body) {
         this.title = title;
         this.body = body;
     }
