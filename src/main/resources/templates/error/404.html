@@ -6,7 +6,29 @@
 </head>
 <body>
 
-<img src="https://httpstatusdogs.com/img/404.jpg" alt="" />
+<h1>404 Page Not Found</h1>
 
+<img id="image" width="480" src="https://httpstatusdogs.com/img/404.jpg" />
+
+<script>
+    "use strict";
+    const images = [
+        "https://http.cat/404",
+        "https://httpstatusdogs.com/img/404.jpg"
+    ];
+
+    var index = 0;
+    setInterval(function() {
+        if(index === 0) {
+            index = 1;
+        } else {
+            index = 0;
+        }
+
+        document.getElementById("image").setAttribute("src",  images[index]);
+
+    }, 1234);
+
+</script>
 </body>
 </html>
