@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments/header :: header('Ad Details')"></head>
+<body>
+
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<main>
+    Preview of the email
+    <h1 th:text="${ad.id}"></h1>
+    <h1 th:text="${ad.title}"></h1>
+    <p th:text="${ad.description}"></p>
+</main>
+
+</body>
+</html>

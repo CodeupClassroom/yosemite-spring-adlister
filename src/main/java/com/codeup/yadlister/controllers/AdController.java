@@ -1,7 +1,6 @@
 package com.codeup.yadlister.controllers;
 
-import com.codeup.yadlister.models.Ad;
-import com.codeup.yadlister.models.Post;
+import com.codeup.yadlister.models.*;
 import com.codeup.yadlister.repositories.AdRepository;
 import com.codeup.yadlister.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class AdController {
@@ -34,7 +36,15 @@ public class AdController {
             @RequestParam(name = "description") String description
     ){
 
-        Ad ad = new Ad(title, description);
+        List<AdImage> imgs = new ArrayList<>();
+        List<Category> categories = new ArrayList<>();
+
+        User user = new User();
+
+
+
+
+        Ad ad = new Ad(title, description, new User(), imgs, categories);
 
         Ad savedAd = adDao.save(ad);
 
