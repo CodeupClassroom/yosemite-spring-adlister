@@ -1,8 +1,19 @@
 body {
     background-color: bisque;
+    margin: 0 2em;
+    padding: 0 2em;
 }
 
 nav>ul>li {
     list-style-type: none;
     display: inline;
+}
+
+nav a {
+    margin: 1em;
+    padding: 1em;
+}
+
+nav>ul>li>a:hover {
+    background-color: aqua;
 }

@@ -8,8 +8,12 @@
 <main>
     <div th:each="post : ${posts}">
 
-        <h1 th:text="${post.title}"></h1>
-        <h1 th:text="${post.title}"></h1>
+        <h1>
+            <a th:href="@{/posts/{id}(id=${post.id})}">
+                <span th:text="${post.title}"></span>
+            </a>
+        </h1>
+
         <p th:text="${post.body}"></p>
 
         <hr />
