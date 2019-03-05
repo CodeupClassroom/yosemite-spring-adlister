@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" lang="en">
 <head>
     <meta charset="UTF-8" />
     <title>Title</title>
@@ -9,11 +9,19 @@
 <th:block th:fragment="navbar">
     <nav>
         <ul>
+            <li sec:authorize="isAuthenticated()">
+                Welcome, <span th:text="${#authentication.principal.username}"/>
+            </li>
             <li><a th:href="@{/}">Home</a></li>
             <li><a th:href="@{/quotes}">Show All Quotes</a></li>
             <li><a th:href="@{/quotes/random}">Random Quote</a></li>
             <li><a th:href="@{/posts}">All Blog Posts</a></li>
             <li><a th:href="@{/posts/create}">Write a New Blow Post</a></li>
+            <li sec:authorize="isAuthenticated()">
+                <form th:action="@{/logout}" th:method="post">
+                    <button class="btn-link btn" style="margin-top: 8px">Logout</button>
+                </form>
+            </li>
         </ul>
     </nav>
 </th:block>
