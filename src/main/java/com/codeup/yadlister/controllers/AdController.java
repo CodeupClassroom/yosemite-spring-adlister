@@ -2,8 +2,10 @@ package com.codeup.yadlister.controllers;
 
 import com.codeup.yadlister.models.*;
 import com.codeup.yadlister.repositories.AdRepository;
+import com.codeup.yadlister.repositories.Users;
 import com.codeup.yadlister.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +25,9 @@ public class AdController {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private Users userDao;
+
     // load the form for new blog posts
     @GetMapping("/ads/create")
     public String showForm(){
@@ -39,12 +44,10 @@ public class AdController {
         List<AdImage> imgs = new ArrayList<>();
         List<Category> categories = new ArrayList<>();
 
-        User user = new User();
+        User sessionUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User userDB = userDao.findOne(sessionUser.getId());
 
-
-
-
-        Ad ad = new Ad(title, description, new User(), imgs, categories);
+        Ad ad = new Ad(title, description, userDB, imgs, categories);
 
         Ad savedAd = adDao.save(ad);
 
