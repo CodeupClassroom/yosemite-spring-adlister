@@ -7,19 +7,15 @@
 <div th:replace="fragments/navbar :: navbar"></div>
 
 
-<form th:action="@{/ads/create}" th:method="post">
-
-    <label for="title">Title: </label>
-
-    <input name="title" id="title" placeholder="Put the ad title here"  />
-
-    <label for="description">Description: </label>
-
-    <textarea name="description" id="description" cols="30" rows="10"></textarea>
-
-    <button type="submit">Save Ad</button>
+<form th:action="@{/ads/create}" th:method="post" th:object="${ad}">
+    Title:
+    <input th:field="*{title}" />
+    <br />
+    Description:
+    <input th:field="*{description}" />
+    <br />
+    <input type="submit" />
 </form>
-
 
 </body>
 </html>

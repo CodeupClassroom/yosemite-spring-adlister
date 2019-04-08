@@ -17,23 +17,24 @@ public class EmailService {
     @Value("${spring.mail.from}")
     private String from;
 
-    public void prepareAndSend(Ad ad, String subject, String body) {
+    public SimpleMailMessage prepare(Ad ad, String subject, String body) {
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setFrom(from);
 //        msg.setTo(ad.getUser().getEmail());
         msg.setTo("user@mypage.com");
         msg.setSubject(subject);
         msg.setText(body);
+        return msg;
+    }
 
+    public void send(SimpleMailMessage msg){
         try{
             this.emailSender.send(msg);
-
         }
         catch (MailException ex) {
             // simply log it and go on...
             System.err.println(ex.getMessage());
         }
     }
-
 
 }

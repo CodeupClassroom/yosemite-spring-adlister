@@ -7,7 +7,9 @@ import com.codeup.yadlister.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -30,29 +32,26 @@ public class AdController {
 
     // load the form for new blog posts
     @GetMapping("/ads/create")
-    public String showForm(){
+    public String showCreateForm(Model model) {
+        model.addAttribute("ad", new Ad());
         return "ads/create";
     }
 
     // save the new post to the database
     @PostMapping("/ads/create")
-    public String create(
-            @RequestParam(name = "title") String title,
-            @RequestParam(name = "description") String description
-    ){
+    public String create(@ModelAttribute Ad ad){
 
         List<AdImage> imgs = new ArrayList<>();
         List<Category> categories = new ArrayList<>();
-
         User sessionUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         User userDB = userDao.findOne(sessionUser.getId());
-
-        Ad ad = new Ad(title, description, userDB, imgs, categories);
-
+        ad.setCategories(categories);
+        ad.setImages(imgs);
+        ad.setUser(userDB);
         Ad savedAd = adDao.save(ad);
 
-        emailService.prepareAndSend(savedAd, "Ad created successfully", "The ad was created with the id " + savedAd.getId());
-
+        emailService.send(emailService.prepare(savedAd, "Ad created successfully", "The ad was created with the id " + savedAd.getId()));
 
         return "redirect:/ads";
 
