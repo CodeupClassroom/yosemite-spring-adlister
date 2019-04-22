@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dataset>
+    <ads id="1" title="PS4" description="1 year of use" user_id="1"/>
+    <ads id="2" title="XBOX" description="2 years of use" user_id="1"/>
+    <ads id="3" title="Nintendo Switch" description="Damaged" user_id="1"/>
+    <ads id="4" title="PS3" description="5 years of use" user_id="1"/>
+</dataset>

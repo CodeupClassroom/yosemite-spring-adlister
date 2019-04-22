@@ -2,25 +2,34 @@ package com.codeup.yadlister;
 
 import com.codeup.yadlister.models.Ad;
 import com.codeup.yadlister.repositories.AdRepository;
+import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@TestExecutionListeners({
+        DependencyInjectionTestExecutionListener.class,
+        DirtiesContextTestExecutionListener.class,
+        TransactionalTestExecutionListener.class,
+        DbUnitTestExecutionListener.class
+})
+@DatabaseSetup("classpath:ad-test-datasets.xml")
 public class AdsRepositoryTests {
-
-    private String title = "PS4 PRO";
-    private Ad ad;
 
     @Autowired
     private TestEntityManager entityManager;
@@ -28,37 +37,40 @@ public class AdsRepositoryTests {
     @Autowired
     private AdRepository adRepository;
 
-    @Before
-    public void setUp(){
-        ad = new Ad();
-        ad.setTitle(title);
+    @Test
+    public void testCreateAd(){
+        Ad ad = new Ad();
+        ad.setTitle("Another PS4");
         ad.setDescription("used for a year");
+        Ad newAd = entityManager.persist(ad);
+        assertThat(newAd.getTitle()).isEqualTo(ad.getTitle());
     }
 
     @Test
-    public void testAllNoResults(){
-        assertThat(adRepository.count()).isEqualTo(0);
-    }
-
-    @Test
-    public void testAllPlentyResults(){
-        assertThat(adRepository.count()).isGreaterThan(0);
-    }
-
-    @Test
-    public void testFindByTitle(){
-        entityManager.persist(ad);
-        Ad foundAd = adRepository.findByTitle(this.title);
-        assertThat(foundAd.getTitle())
-                .isEqualTo(ad.getTitle());
+    public void testReadAd(){
+        Ad foundAd = adRepository.findByTitle("PS4");
+        assertThat(foundAd).isNotNull();
     }
 
     @Test
     public void testUpdateAd(){
-        String newTitle = "Xbox";
-        ad.setTitle(newTitle);
-        entityManager.persist(ad);
-        assertThat(ad.getTitle()).isEqualTo(adRepository.findByTitle(newTitle).getTitle());
+        Ad existingAd = adRepository.findByTitle("PS4");
+        String newTitle = "Another Xbox";
+        existingAd.setTitle(newTitle);
+        entityManager.persist(existingAd);
+        assertThat(adRepository.findByTitle(newTitle)).isNotNull();
+    }
+
+    @Test
+    public void testDeleteAd(){
+        Ad existingAd = adRepository.findByTitle("XBOX");
+        entityManager.remove(existingAd);
+        assertThat(adRepository.findByTitle("XBOX")).isNull();
+    }
+
+    @Test
+    public void testAllAds(){
+        assertThat(adRepository.count()).isGreaterThan(0);
     }
 
 }
